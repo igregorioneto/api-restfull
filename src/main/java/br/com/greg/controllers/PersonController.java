@@ -25,27 +25,37 @@ public class PersonController {
 	@Autowired
 	private PersonServices services;
 	
-	@GetMapping("/{id}")
+	@GetMapping(value = "/{id}", produces = { "application/json", "application/xml", "application/x-yaml" })
 	public PersonVO findById(@PathVariable("id") Long id) {
 		return services.findById(id);
 	}
 	
-	@GetMapping()
+	@GetMapping(produces = { "application/json", "application/xml", "application/x-yaml" })
 	public List<PersonVO> findAll() {
 		return services.findAll();
 	}
 	
-	@PostMapping
+	@PostMapping(
+			produces = { "application/json", "application/xml", "application/x-yaml" },
+			consumes = { "application/json", "application/xml", "application/x-yaml" } 
+			)
 	public PersonVO create(@RequestBody PersonVO PersonVO) {
 		return services.create(PersonVO);
 	}
 	
-	@PostMapping("/v2")
+	@PostMapping(
+			value = "/v2",
+			produces = { "application/json", "application/xml", "application/x-yaml" },
+			consumes = { "application/json", "application/xml", "application/x-yaml" }
+			)
 	public PersonVOV2 create(@RequestBody PersonVOV2 person) {
 		return services.createV2(person);
 	}
 	
-	@PutMapping
+	@PutMapping(
+			produces = { "application/json", "application/xml", "application/x-yaml" },
+			consumes = { "application/json", "application/xml", "application/x-yaml" }
+			)
 	public PersonVO update(@RequestBody PersonVO PersonVO) {
 		return services.update(PersonVO);
 	}
