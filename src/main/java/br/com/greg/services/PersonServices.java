@@ -1,15 +1,13 @@
 package br.com.greg.services;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.greg.converter.DozerConverter;
 import br.com.greg.data.vo.PersonVO;
+import br.com.greg.data.vo.v2.PersonVOV2;
 import br.com.greg.exception.ResourceNotFoundException;
 import br.com.greg.model.Person;
 import br.com.greg.repository.PersonRepository;
@@ -23,6 +21,12 @@ public class PersonServices {
 	public PersonVO create(PersonVO person) {
 		var entity = DozerConverter.parserObject(person, Person.class);
 		var vo = DozerConverter.parserObject(repository.save(entity), PersonVO.class);
+		return vo;
+	}
+	
+	public PersonVOV2 createV2(PersonVOV2 person) {
+		var entity = DozerConverter.parserObject(person, Person.class);
+		var vo = DozerConverter.parserObject(repository.save(entity), PersonVOV2.class);
 		return vo;
 	}
 	
