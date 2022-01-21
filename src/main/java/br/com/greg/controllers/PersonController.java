@@ -40,7 +40,7 @@ public class PersonController {
 		return services.create(PersonVO);
 	}
 	
-	@PostMapping("v2")
+	@PostMapping("/v2")
 	public PersonVOV2 create(@RequestBody PersonVOV2 person) {
 		return services.createV2(person);
 	}

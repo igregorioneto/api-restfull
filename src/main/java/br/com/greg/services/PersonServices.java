@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.greg.converter.DozerConverter;
+import br.com.greg.converter.custom.PersonConverter;
 import br.com.greg.data.vo.PersonVO;
 import br.com.greg.data.vo.v2.PersonVOV2;
 import br.com.greg.exception.ResourceNotFoundException;
@@ -18,6 +19,9 @@ public class PersonServices {
 	@Autowired
 	PersonRepository repository;
 	
+	@Autowired
+	PersonConverter converter;
+	
 	public PersonVO create(PersonVO person) {
 		var entity = DozerConverter.parserObject(person, Person.class);
 		var vo = DozerConverter.parserObject(repository.save(entity), PersonVO.class);
@@ -25,8 +29,8 @@ public class PersonServices {
 	}
 	
 	public PersonVOV2 createV2(PersonVOV2 person) {
-		var entity = DozerConverter.parserObject(person, Person.class);
-		var vo = DozerConverter.parserObject(repository.save(entity), PersonVOV2.class);
+		var entity = converter.convertVOtoEntity(person);
+		var vo = converter.convertEntityToVO(repository.save(entity));
 		return vo;
 	}
 	
