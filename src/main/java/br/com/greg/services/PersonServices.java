@@ -8,6 +8,8 @@ import java.util.concurrent.atomic.AtomicLong;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.greg.converter.DozerConverter;
+import br.com.greg.data.vo.PersonVO;
 import br.com.greg.exception.ResourceNotFoundException;
 import br.com.greg.model.Person;
 import br.com.greg.repository.PersonRepository;
@@ -18,12 +20,14 @@ public class PersonServices {
 	@Autowired
 	PersonRepository repository;
 	
-	public Person create(Person person) {
-		return repository.save(person);
+	public PersonVO create(PersonVO person) {
+		var entity = DozerConverter.parserObject(person, Person.class);
+		var vo = DozerConverter.parserObject(repository.save(entity), PersonVO.class);
+		return vo;
 	}
 	
-	public Person update(Person person) {
-		Person entity = repository.findById(
+	public PersonVO update(PersonVO person) {
+		var entity = repository.findById(
 				person.getId())
 				.orElseThrow(() -> new ResourceNotFoundException("No records found for this ID"));
 		
@@ -32,7 +36,9 @@ public class PersonServices {
 		entity.setAddress(person.getAddress());
 		entity.setGender(person.getGender());
 		
-		return repository.save(entity);
+		var vo = DozerConverter.parserObject(repository.save(entity), PersonVO.class);
+		
+		return vo;
 	}
 	
 	public void delete(Long id) {
@@ -41,12 +47,13 @@ public class PersonServices {
 		repository.delete(entity);
 	}
 	
-	public Person findById(Long id) {
-		return repository.findById(id)
+	public PersonVO findById(Long id) {
+		var entity = repository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("No records found for this ID"));
+		return DozerConverter.parserObject(entity, PersonVO.class);
 	}
 	
-	public List<Person> findAll() {
-		return repository.findAll();
+	public List<PersonVO> findAll() {
+		return DozerConverter.parserObject(repository.findAll(), PersonVO.class);
 	}
 }

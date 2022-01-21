@@ -4,7 +4,6 @@ package br.com.greg.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,37 +12,36 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.greg.model.Person;
+import br.com.greg.data.vo.PersonVO;
 import br.com.greg.services.PersonServices;
 
 @RestController
-@RequestMapping("/person")
+@RequestMapping("/PersonVO")
 public class PersonController {
 
 	@Autowired
 	private PersonServices services;
 	
 	@GetMapping("/{id}")
-	public Person findById(@PathVariable("id") Long id) {
+	public PersonVO findById(@PathVariable("id") Long id) {
 		return services.findById(id);
 	}
 	
 	@GetMapping()
-	public List<Person> findAll() {
+	public List<PersonVO> findAll() {
 		return services.findAll();
 	}
 	
 	@PostMapping
-	public Person create(@RequestBody Person person) {
-		return services.create(person);
+	public PersonVO create(@RequestBody PersonVO PersonVO) {
+		return services.create(PersonVO);
 	}
 	
 	@PutMapping
-	public Person update(@RequestBody Person person) {
-		return services.update(person);
+	public PersonVO update(@RequestBody PersonVO PersonVO) {
+		return services.update(PersonVO);
 	}
 	
 	@DeleteMapping("/{id}")
