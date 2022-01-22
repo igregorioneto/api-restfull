@@ -2,8 +2,10 @@ package br.com.greg.controllers;
 
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +20,9 @@ import br.com.greg.data.vo.PersonVO;
 import br.com.greg.data.vo.v2.PersonVOV2;
 import br.com.greg.services.PersonServices;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 @RestController
 @RequestMapping("/api/person/v1")
 public class PersonController {
@@ -26,13 +31,29 @@ public class PersonController {
 	private PersonServices services;
 	
 	@GetMapping(value = "/{id}", produces = { "application/json", "application/xml", "application/x-yaml" })
-	public PersonVO findById(@PathVariable("id") Long id) {
-		return services.findById(id);
+	public ResponseEntity<PersonVO> findById(@PathVariable("id") Long id) {
+		Optional<PersonVO> personVO = Optional.of(services.findById(id));
+		if (!personVO.isPresent()) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} else {
+			personVO.get().add(linkTo(methodOn(PersonController.class).findAll()).withRel("List of persons"));
+			return new ResponseEntity<PersonVO>(personVO.get(), HttpStatus.OK);
+		}
 	}
 	
 	@GetMapping(produces = { "application/json", "application/xml", "application/x-yaml" })
-	public List<PersonVO> findAll() {
-		return services.findAll();
+	public ResponseEntity<List<PersonVO>> findAll() {
+		List<PersonVO> persons = services.findAll();
+		if(persons.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} else {
+			for(PersonVO person : persons) {
+				long id = person.getId();
+				person.add(linkTo(methodOn(PersonController.class).findById(id)).withSelfRel());
+			}
+			
+			return new ResponseEntity<List<PersonVO>>(persons, HttpStatus.OK);
+		}
 	}
 	
 	@PostMapping(
