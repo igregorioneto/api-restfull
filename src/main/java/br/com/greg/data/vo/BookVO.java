@@ -29,7 +29,7 @@ public class BookVO extends RepresentationModel<BookVO> implements Serializable 
 	@JsonProperty("title")
 	private String title;
 	
-	public BookVO {
+	public BookVO() {
 		
 	}
 

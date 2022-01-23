@@ -46,11 +46,11 @@ public class DozerConverterTestBook {
         List<BookVO> outputList = DozerConverter.parserObject(inputObject.mockEntityList(), BookVO.class);
         BookVO outputZero = outputList.get(0);
         
-        Assert.assertEquals(Long.valueOf(0L), output.getId());
-        Assert.assertEquals("Author Test0", output.getAuthor());
-        Assert.assertEquals(new Date(), output.getLaunchDate());
-        Assert.assertEquals("Title Test0", output.getTitle());
-        Assert.assertEquals("20", output.getPrice());
+        Assert.assertEquals(Long.valueOf(0L), outputZero.getId());
+        Assert.assertEquals("Author Test0", outputZero.getAuthor());
+        Assert.assertEquals(new Date(), outputZero.getLaunchDate());
+        Assert.assertEquals("Title Test0", outputZero.getTitle());
+        Assert.assertEquals("20", outputZero.getPrice());
         
         BookVO outputSeven = outputList.get(7);
         
