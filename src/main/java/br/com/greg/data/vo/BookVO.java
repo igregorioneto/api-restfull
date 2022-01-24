@@ -7,8 +7,10 @@ import java.util.Objects;
 import org.springframework.hateoas.RepresentationModel;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.github.dozermapper.core.Mapping;
 
+@JsonPropertyOrder({"id", "author", "lauchDate", "price", "title"})
 public class BookVO extends RepresentationModel<BookVO> implements Serializable {
 
 	private static final long serialVersionUID = 1L;

@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class Book implements Serializable {
@@ -23,6 +25,7 @@ public class Book implements Serializable {
 	private String author;
 	
 	@Column(name = "launch_date", nullable = false)
+	@Temporal(TemporalType.DATE)
 	private Date launchDate;
 	
 	@Column(nullable = false)

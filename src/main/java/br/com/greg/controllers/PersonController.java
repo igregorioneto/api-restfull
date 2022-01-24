@@ -19,10 +19,13 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.greg.data.vo.PersonVO;
 import br.com.greg.data.vo.v2.PersonVOV2;
 import br.com.greg.services.PersonServices;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+@Api(value = "Person Endpoint", description = "Description for persons", tags = {"PersonEndpoint"})
 @RestController
 @RequestMapping("/api/person/v1")
 public class PersonController {
@@ -30,6 +33,7 @@ public class PersonController {
 	@Autowired
 	private PersonServices services;
 	
+	@ApiOperation(value = "Search for a person")
 	@GetMapping(value = "/{id}", produces = { "application/json", "application/xml", "application/x-yaml" })
 	public ResponseEntity<PersonVO> findById(@PathVariable("id") Long id) {
 		Optional<PersonVO> personVO = Optional.of(services.findById(id));
@@ -41,6 +45,7 @@ public class PersonController {
 		}
 	}
 	
+	@ApiOperation(value = "Find all people recorded")
 	@GetMapping(produces = { "application/json", "application/xml", "application/x-yaml" })
 	public ResponseEntity<List<PersonVO>> findAll() {
 		List<PersonVO> persons = services.findAll();
@@ -56,6 +61,7 @@ public class PersonController {
 		}
 	}
 	
+	@ApiOperation(value = "Register a person")
 	@PostMapping(
 			produces = { "application/json", "application/xml", "application/x-yaml" },
 			consumes = { "application/json", "application/xml", "application/x-yaml" } 
@@ -64,6 +70,7 @@ public class PersonController {
 		return services.create(PersonVO);
 	}
 	
+	@ApiOperation(value = "Register a person v2")
 	@PostMapping(
 			value = "/v2",
 			produces = { "application/json", "application/xml", "application/x-yaml" },
@@ -73,6 +80,7 @@ public class PersonController {
 		return services.createV2(person);
 	}
 	
+	@ApiOperation(value = "Update a person's record")
 	@PutMapping(
 			produces = { "application/json", "application/xml", "application/x-yaml" },
 			consumes = { "application/json", "application/xml", "application/x-yaml" }
@@ -81,6 +89,7 @@ public class PersonController {
 		return services.update(PersonVO);
 	}
 	
+	@ApiOperation(value = "Delete a person")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> delete(@PathVariable("id") Long id) {
 		services.delete(id);

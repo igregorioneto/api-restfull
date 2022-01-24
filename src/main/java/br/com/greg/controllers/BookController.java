@@ -18,9 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.greg.data.vo.BookVO;
 import br.com.greg.data.vo.PersonVO;
 import br.com.greg.services.BookService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+@Api(value = "Book Endpoint", description = "Description for books", tags = {"BookEndpoint"})
 @RestController
 @RequestMapping("/api/book/v1")
 public class BookController {
@@ -28,6 +32,7 @@ public class BookController {
 	@Autowired
 	private BookService services;
 	
+	@ApiOperation(value = "Get a book")
 	@GetMapping(value = "/{id}", produces = { "application/json", "application/xml", "application/x-yaml" })
 	public ResponseEntity<BookVO> findById(@PathVariable("id") Long id) {
 		Optional<BookVO> bookVO = Optional.of(services.findById(id));
@@ -39,6 +44,7 @@ public class BookController {
 		}
 	}
 	
+	@ApiOperation(value = "Search through all books")
 	@GetMapping(produces = { "application/json", "application/xml", "application/x-yaml" })
 	public ResponseEntity<List<BookVO>> findAll() {
 		List<BookVO> booksVO = services.findAll();
@@ -53,6 +59,7 @@ public class BookController {
 		}
 	}
 	
+	@ApiOperation(value = "Register a book")	
 	@PostMapping(
 			produces = { "application/json", "application/xml", "application/x-yaml" },
 			consumes = { "application/json", "application/xml", "application/x-yaml" } 
@@ -61,6 +68,7 @@ public class BookController {
 		return services.create(book);
 	}
 	
+	@ApiOperation(value = "Update a book")
 	@PutMapping(
 			produces = { "application/json", "application/xml", "application/x-yaml" },
 			consumes = { "application/json", "application/xml", "application/x-yaml" } 
@@ -69,6 +77,7 @@ public class BookController {
 		return services.update(book);
 	}
 	
+	@ApiOperation(value = "Delete a book")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> delete(@PathVariable("id") Long id) {
 		services.delete(id);
