@@ -1,5 +1,8 @@
 package br.com.greg.controllers;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -16,13 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.greg.data.vo.BookVO;
-import br.com.greg.data.vo.PersonVO;
 import br.com.greg.services.BookService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Api(value = "Book Endpoint", description = "Description for books", tags = {"BookEndpoint"})
 @RestController

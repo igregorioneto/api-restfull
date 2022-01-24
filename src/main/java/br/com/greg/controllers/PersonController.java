@@ -1,6 +1,9 @@
 package br.com.greg.controllers;
 
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -22,9 +25,7 @@ import br.com.greg.services.PersonServices;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-
+//@CrossOrigin
 @Api(value = "Person Endpoint", description = "Description for persons", tags = {"PersonEndpoint"})
 @RestController
 @RequestMapping("/api/person/v1")
@@ -45,6 +46,7 @@ public class PersonController {
 		}
 	}
 	
+//	@CrossOrigin(origins = {"http://localhost:8080"})
 	@ApiOperation(value = "Find all people recorded")
 	@GetMapping(produces = { "application/json", "application/xml", "application/x-yaml" })
 	public ResponseEntity<List<PersonVO>> findAll() {
