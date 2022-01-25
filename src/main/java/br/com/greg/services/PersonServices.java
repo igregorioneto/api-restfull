@@ -1,7 +1,5 @@
 package br.com.greg.services;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -70,6 +68,11 @@ public class PersonServices {
 		var entity = repository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("No records found for this ID"));
 		return DozerConverter.parserObject(entity, PersonVO.class);
+	}
+	
+	public Page<PersonVO> findPersonByName(String firstName, Pageable pageable) {
+		var page = repository.findPersonByName(firstName,pageable);
+		return page.map(this::convertToPersonVO);
 	}
 	
 	public Page<PersonVO> findAll(Pageable pageable) {
