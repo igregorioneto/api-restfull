@@ -1,0 +1,42 @@
+version: '3.4'
+services:
+  db:
+    image: igregorioneto/mysql-api-restfull
+    command: mysqld --default-authentication-plugin=mysql_native_password
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      TZ: America/Sao_Paulo
+      MYSQL_ROOT_PASSWORD: docker
+      MYSQL_USER: docker
+      MYSQL_PASSWORD: docker
+      MYSQL_DATABASE: api_restfull
+    ports:
+      - "3308:3308"
+    networks:
+      - udemy-network
+  api-restfull:
+    image: igregorioneto/api-restfull
+    restart: always
+    build: ./api-restfull
+    work_dir: /api-restfull
+    environment:
+      TZ: America/Sao_Paulo
+      SPRING_BOOT_ENVIRONMENT: Production
+    volumes:
+      - ./api_restfull: /api_restfull
+      - ~/.m2: /root/.m2
+    ports:
+      - "8080:8080"
+    command: mvn clear spring-boot:run
+    links:
+      - db
+    depends_on:
+      - db
+    networks:
+      - udemy-network
+networks:
+    udemy-network:
+        driver: bridge
